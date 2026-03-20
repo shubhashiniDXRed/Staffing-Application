@@ -1,9 +1,6 @@
-"use client"
-
-import { usePathname } from "next/navigation"
 import { LayoutDashboard, Briefcase, Users, Calendar, MessageSquare, Clock } from "lucide-react"
-import { Header } from "@/components/dashboard/header"
-import { Sidebar, type NavSection } from "@/components/dashboard/sidebar"
+import { AppShell } from "@/components/dashboard/app-shell"
+import type { NavSection } from "@/components/dashboard/sidebar"
 
 const navSections: NavSection[] = [
   {
@@ -20,40 +17,23 @@ const navSections: NavSection[] = [
 ]
 
 const headerTabs = [
-  { label: "Command Center", href: "/staffing" },
-  { label: "Customer View", href: "/customer" },
-  { label: "Vendor Portal", href: "/freelancer" },
+  { label: "Command Center", href: "/staffing", matchPrefix: "/staffing" },
+  { label: "Customer View", href: "/customer", matchPrefix: "/customer" },
+  { label: "Vendor Portal", href: "/freelancer", matchPrefix: "/freelancer" },
 ]
 
 export default function CustomerLayout({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname()
-  
-  const tabs = headerTabs.map((tab) => ({
-    ...tab,
-    active: pathname.startsWith("/customer") && tab.href === "/customer",
-  }))
-  
-  if (pathname.startsWith("/customer")) {
-    tabs[0].active = false
-    tabs[1].active = true
-    tabs[2].active = false
-  }
-
   return (
-    <div className="min-h-screen bg-muted/30">
-      <Header tabs={tabs} searchPlaceholder="Search candidates, jobs..." />
-      <div className="flex">
-        <Sidebar 
-          sections={navSections} 
-          showQuickHire
-          quickHireAction="/customer/jobs/new"
-          settingsHref="/customer/settings"
-          supportHref="/customer/support"
-        />
-        <main className="flex-1 p-6 overflow-auto">
-          {children}
-        </main>
-      </div>
-    </div>
+    <AppShell
+      sections={navSections}
+      headerTabs={headerTabs}
+      searchPlaceholder="Search candidates, jobs..."
+      showQuickHire
+      quickHireAction="/customer/jobs/new"
+      settingsHref="/customer/settings"
+      supportHref="/customer/support"
+    >
+      {children}
+    </AppShell>
   )
 }

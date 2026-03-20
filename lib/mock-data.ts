@@ -359,11 +359,11 @@ export const mockNotifications: Notification[] = [
 
 // Position breakdown for sidebar
 export const positionBreakdown: PositionBreakdown[] = [
-  { position: "CMS Developer", count: 8, color: "#3b82f6" },
-  { position: "Commerce", count: 6, color: "#f59e0b" },
-  { position: "Frontend", count: 5, color: "#22c55e" },
-  { position: "Architect", count: 3, color: "#f97316" },
-  { position: "Other", count: 1, color: "#6b7280" },
+  { position: "CMS Developer", count: 8, color: "var(--color-blue-600)" },
+  { position: "Commerce", count: 6, color: "var(--color-orange-700)" },
+  { position: "Frontend", count: 5, color: "var(--color-green-600)" },
+  { position: "Architect", count: 3, color: "var(--color-orange-700)" },
+  { position: "Other", count: 1, color: "var(--color-gray-500)" },
 ]
 
 // Dashboard stats for staffing manager

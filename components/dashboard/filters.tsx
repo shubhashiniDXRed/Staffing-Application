@@ -12,9 +12,9 @@ export function Filters() {
   return (
     <div className="flex gap-4">
       <div className="flex-1">
-        <label className="block text-sm text-[#374151] mb-1.5">Position</label>
+        <label className="block text-sm text-[var(--color-gray-700)] mb-1.5">Position</label>
         <Select defaultValue="all">
-          <SelectTrigger className="w-full bg-white border-[#e5e7eb]">
+          <SelectTrigger className="w-full bg-white border-[var(--color-gray-200)]">
             <SelectValue placeholder="All Positions" />
           </SelectTrigger>
           <SelectContent>
@@ -28,9 +28,9 @@ export function Filters() {
       </div>
 
       <div className="flex-1">
-        <label className="block text-sm text-[#374151] mb-1.5">Skills</label>
+        <label className="block text-sm text-[var(--color-gray-700)] mb-1.5">Skills</label>
         <Select defaultValue="all">
-          <SelectTrigger className="w-full bg-white border-[#e5e7eb]">
+          <SelectTrigger className="w-full bg-white border-[var(--color-gray-200)]">
             <SelectValue placeholder="All Skills" />
           </SelectTrigger>
           <SelectContent>
@@ -44,9 +44,9 @@ export function Filters() {
       </div>
 
       <div className="flex-1">
-        <label className="block text-sm text-[#374151] mb-1.5">Availability</label>
+        <label className="block text-sm text-[var(--color-gray-700)] mb-1.5">Availability</label>
         <Select defaultValue="all">
-          <SelectTrigger className="w-full bg-white border-[#e5e7eb]">
+          <SelectTrigger className="w-full bg-white border-[var(--color-gray-200)]">
             <SelectValue placeholder="All" />
           </SelectTrigger>
           <SelectContent>
@@ -60,9 +60,9 @@ export function Filters() {
       </div>
 
       <div className="flex-1">
-        <label className="block text-sm text-[#374151] mb-1.5">Rating</label>
+        <label className="block text-sm text-[var(--color-gray-700)] mb-1.5">Rating</label>
         <Select defaultValue="all">
-          <SelectTrigger className="w-full bg-white border-[#e5e7eb]">
+          <SelectTrigger className="w-full bg-white border-[var(--color-gray-200)]">
             <SelectValue placeholder="All Ratings" />
           </SelectTrigger>
           <SelectContent>

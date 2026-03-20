@@ -1,9 +1,6 @@
-"use client"
-
-import { usePathname } from "next/navigation"
 import { LayoutDashboard, Search, FileText, Calendar, MessageSquare, User, Clock, Award } from "lucide-react"
-import { Header } from "@/components/dashboard/header"
-import { Sidebar, type NavSection } from "@/components/dashboard/sidebar"
+import { AppShell } from "@/components/dashboard/app-shell"
+import type { NavSection } from "@/components/dashboard/sidebar"
 
 const navSections: NavSection[] = [
   {
@@ -28,39 +25,22 @@ const navSections: NavSection[] = [
 ]
 
 const headerTabs = [
-  { label: "Command Center", href: "/staffing" },
-  { label: "Customer View", href: "/customer" },
-  { label: "Vendor Portal", href: "/freelancer" },
+  { label: "Command Center", href: "/staffing", matchPrefix: "/staffing" },
+  { label: "Customer View", href: "/customer", matchPrefix: "/customer" },
+  { label: "Vendor Portal", href: "/freelancer", matchPrefix: "/freelancer" },
 ]
 
 export default function FreelancerLayout({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname()
-  
-  const tabs = headerTabs.map((tab) => ({
-    ...tab,
-    active: pathname.startsWith("/freelancer") && tab.href === "/freelancer",
-  }))
-  
-  if (pathname.startsWith("/freelancer")) {
-    tabs[0].active = false
-    tabs[1].active = false
-    tabs[2].active = true
-  }
-
   return (
-    <div className="min-h-screen bg-muted/30">
-      <Header tabs={tabs} searchPlaceholder="Search jobs, companies..." />
-      <div className="flex">
-        <Sidebar 
-          sections={navSections} 
-          showQuickHire={false}
-          settingsHref="/freelancer/settings"
-          supportHref="/freelancer/support"
-        />
-        <main className="flex-1 p-6 overflow-auto">
-          {children}
-        </main>
-      </div>
-    </div>
+    <AppShell
+      sections={navSections}
+      headerTabs={headerTabs}
+      searchPlaceholder="Search jobs, companies..."
+      showQuickHire={false}
+      settingsHref="/freelancer/settings"
+      supportHref="/freelancer/support"
+    >
+      {children}
+    </AppShell>
   )
 }
