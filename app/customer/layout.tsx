@@ -1,7 +1,7 @@
 "use client"
 
 import { usePathname } from "next/navigation"
-import { LayoutDashboard, Briefcase, Users, Calendar, MessageSquare } from "lucide-react"
+import { LayoutDashboard, Briefcase, Users, Calendar, MessageSquare, Clock } from "lucide-react"
 import { Header } from "@/components/dashboard/header"
 import { Sidebar, type NavSection } from "@/components/dashboard/sidebar"
 
@@ -14,6 +14,7 @@ const navSections: NavSection[] = [
       { icon: Users, label: "Candidates", href: "/customer/candidates" },
       { icon: Calendar, label: "Interviews", href: "/customer/interviews", badge: 2 },
       { icon: MessageSquare, label: "Messages", href: "/customer/messages", badge: 5 },
+      { icon: Clock, label: "Timesheets", href: "/customer/timesheets", badge: 1 },
     ],
   },
 ]

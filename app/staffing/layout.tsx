@@ -1,7 +1,7 @@
 "use client"
 
 import { usePathname } from "next/navigation"
-import { LayoutDashboard, Briefcase, Users, Calendar, Clock, GraduationCap, FileText } from "lucide-react"
+import { LayoutDashboard, Briefcase, Users, Calendar, Clock, GraduationCap, FileText, MessageSquare } from "lucide-react"
 import { Header } from "@/components/dashboard/header"
 import { Sidebar, type NavSection } from "@/components/dashboard/sidebar"
 
@@ -13,6 +13,7 @@ const navSections: NavSection[] = [
       { icon: Briefcase, label: "My Jobs", href: "/staffing/jobs", badge: 5 },
       { icon: Users, label: "Shortlisted Talent", href: "/staffing/talent" },
       { icon: Calendar, label: "Interviews", href: "/staffing/interviews", badge: 3 },
+      { icon: MessageSquare, label: "Messages", href: "/staffing/messages", badge: 4 },
     ],
   },
   {

@@ -1,7 +1,7 @@
 "use client"
 
 import { usePathname } from "next/navigation"
-import { LayoutDashboard, Search, FileText, Calendar, MessageSquare, User, Clock } from "lucide-react"
+import { LayoutDashboard, Search, FileText, Calendar, MessageSquare, User, Clock, Award } from "lucide-react"
 import { Header } from "@/components/dashboard/header"
 import { Sidebar, type NavSection } from "@/components/dashboard/sidebar"
 
@@ -20,6 +20,8 @@ const navSections: NavSection[] = [
     title: "Account",
     items: [
       { icon: User, label: "My Profile", href: "/freelancer/profile" },
+      { icon: FileText, label: "Resume", href: "/freelancer/resume" },
+      { icon: Award, label: "Certifications", href: "/freelancer/certifications" },
       { icon: Clock, label: "Timesheets", href: "/freelancer/timesheets" },
     ],
   },
