@@ -1,4 +1,3 @@
-import { LayoutDashboard, Search, FileText, Calendar, MessageSquare, User, Clock, Award } from "lucide-react"
 import { AppShell } from "@/components/dashboard/app-shell"
 import type { NavSection } from "@/components/dashboard/sidebar"
 
@@ -6,20 +5,20 @@ const navSections: NavSection[] = [
   {
     title: "Main Menu",
     items: [
-      { icon: LayoutDashboard, label: "Dashboard", href: "/freelancer" },
-      { icon: Search, label: "Find Jobs", href: "/freelancer/jobs" },
-      { icon: FileText, label: "My Applications", href: "/freelancer/applications", badge: 4 },
-      { icon: Calendar, label: "Interviews", href: "/freelancer/interviews", badge: 2 },
-      { icon: MessageSquare, label: "Messages", href: "/freelancer/messages", badge: 3 },
+      { icon: "layout-dashboard", label: "Dashboard", href: "/freelancer" },
+      { icon: "search", label: "Find Jobs", href: "/freelancer/jobs" },
+      { icon: "file-text", label: "My Applications", href: "/freelancer/applications", badge: 4 },
+      { icon: "calendar", label: "Interviews", href: "/freelancer/interviews", badge: 2 },
+      { icon: "message-square", label: "Messages", href: "/freelancer/messages", badge: 3 },
     ],
   },
   {
     title: "Account",
     items: [
-      { icon: User, label: "My Profile", href: "/freelancer/profile" },
-      { icon: FileText, label: "Resume", href: "/freelancer/resume" },
-      { icon: Award, label: "Certifications", href: "/freelancer/certifications" },
-      { icon: Clock, label: "Timesheets", href: "/freelancer/timesheets" },
+      { icon: "user", label: "My Profile", href: "/freelancer/profile" },
+      { icon: "file-text", label: "Resume", href: "/freelancer/resume" },
+      { icon: "award", label: "Certifications", href: "/freelancer/certifications" },
+      { icon: "clock", label: "Timesheets", href: "/freelancer/timesheets" },
     ],
   },
 ]

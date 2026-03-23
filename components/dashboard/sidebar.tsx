@@ -2,11 +2,44 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Settings, HelpCircle, Lightbulb, type LucideIcon } from "lucide-react"
+import {
+  Settings,
+  HelpCircle,
+  Lightbulb,
+  LayoutDashboard,
+  Briefcase,
+  Users,
+  Calendar,
+  Clock,
+  GraduationCap,
+  FileText,
+  MessageSquare,
+  Search,
+  User,
+  Award,
+  type LucideIcon,
+} from "lucide-react"
 import { cn } from "@/lib/utils"
 
+// Map icon names to components
+const iconMap: Record<string, LucideIcon> = {
+  "layout-dashboard": LayoutDashboard,
+  "briefcase": Briefcase,
+  "users": Users,
+  "calendar": Calendar,
+  "clock": Clock,
+  "graduation-cap": GraduationCap,
+  "file-text": FileText,
+  "message-square": MessageSquare,
+  "search": Search,
+  "user": User,
+  "award": Award,
+  "settings": Settings,
+  "help-circle": HelpCircle,
+}
+
 export interface NavItem {
-  icon: LucideIcon
+  icon: string
   label: string
   href: string
   badge?: number
@@ -26,7 +59,7 @@ interface SidebarProps {
 }
 
 function NavItemComponent({ item, isActive }: { item: NavItem; isActive: boolean }) {
-  const Icon = item.icon
+  const Icon = iconMap[item.icon] || LayoutDashboard
   return (
     <Link
       href={item.href}
@@ -105,11 +138,11 @@ export function Sidebar({
       <div className="p-4 border-t border-border">
         <nav className="space-y-1">
           <NavItemComponent
-            item={{ icon: Settings, label: "Settings", href: settingsHref }}
+            item={{ icon: "settings", label: "Settings", href: settingsHref }}
             isActive={pathname === settingsHref}
           />
           <NavItemComponent
-            item={{ icon: HelpCircle, label: "Support", href: supportHref }}
+            item={{ icon: "help-circle", label: "Support", href: supportHref }}
             isActive={pathname === supportHref}
           />
         </nav>
