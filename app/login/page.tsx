@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { useAuth } from "@/lib/auth-context"
 import type { UserRole } from "@/lib/types"
+import Link from "next/link"
 import { Users, Building2, Briefcase } from "lucide-react"
 
 const roles: {
@@ -100,9 +101,17 @@ export default function LoginPage() {
         ))}
       </div>
 
-      <p className="mt-8 text-sm text-muted-foreground">
-        This is a demo application. Select any role to explore the dashboard.
-      </p>
+      <div className="mt-8 flex flex-col items-center gap-2">
+        <p className="text-sm text-muted-foreground">
+          This is a demo application. Select any role to explore the dashboard.
+        </p>
+        <Link
+          href="/forgot-password"
+          className="text-sm text-[var(--color-blue-600)] hover:underline font-medium"
+        >
+          Forgot your password?
+        </Link>
+      </div>
     </div>
   )
 }
