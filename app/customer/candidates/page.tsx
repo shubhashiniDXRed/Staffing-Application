@@ -30,12 +30,20 @@ const skillColors: Record<string, string> = {
   "SQL Server": "bg-red-100 text-red-700",
 }
 
-const badgeIcons: Record<string, React.ReactNode> = {
-  certified: <Award className="w-4 h-4 text-amber-500" />,
-  freelancer: <Building2 className="w-4 h-4 text-gray-500" />,
-  verified: <CheckCircle2 className="w-4 h-4 text-green-500" />,
-  mvp: <Award className="w-4 h-4 text-amber-500" />,
-  agency: <Building2 className="w-4 h-4 text-purple-500" />,
+function BadgeIcon({ type }: { type: string }) {
+  switch (type) {
+    case "certified":
+    case "mvp":
+      return <Award className="w-4 h-4 text-amber-500" />
+    case "freelancer":
+      return <Building2 className="w-4 h-4 text-gray-500" />
+    case "verified":
+      return <CheckCircle2 className="w-4 h-4 text-green-500" />
+    case "agency":
+      return <Building2 className="w-4 h-4 text-purple-500" />
+    default:
+      return null
+  }
 }
 
 export default function CustomerCandidatesPage() {
@@ -152,7 +160,7 @@ export default function CustomerCandidatesPage() {
                   <div className="flex items-center gap-3 mb-3">
                     {candidate.badges.map((badge, index) => (
                       <div key={index} className="flex items-center gap-1 text-sm text-muted-foreground">
-                        {badgeIcons[badge.type]}
+                        <BadgeIcon type={badge.type} />
                         <span>{badge.label}</span>
                       </div>
                     ))}
