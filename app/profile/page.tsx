@@ -1,238 +1,371 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { useAuth } from '@/lib/auth-context'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { FieldGroup, FieldLabel } from '@/components/ui/field'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { CheckCircle2 } from 'lucide-react'
+import { useState } from 'react';
+import Link from 'next/link';
+import { Settings, LogOut } from 'lucide-react';
 
-interface FormData {
-  name: string
-  email: string
-  phone: string
-  location: string
-  bio: string
-  website?: string
-  company?: string
-  title?: string
-}
+export default function ProfilePage() {
+  const [formData, setFormData] = useState({
+    firstName: 'John',
+    lastName: 'Doe',
+    email: 'john@company.com',
+    phone: '+1 (555) 123-4567',
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: '',
+  });
 
-export default function EditProfilePage() {
-  const { user } = useAuth()
-  const [formData, setFormData] = useState<FormData>({
-    name: user?.name || '',
-    email: user?.email || '',
-    phone: user?.phone || '',
-    location: user?.location || '',
-    bio: user?.bio || '',
-    website: user?.website || '',
-    company: user?.company || '',
-    title: user?.title || '',
-  })
-  const [isSaving, setIsSaving] = useState(false)
-  const [showSuccess, setShowSuccess] = useState(false)
-  const [errors, setErrors] = useState<Record<string, string>>({})
+  const [saved, setSaved] = useState(false);
 
-  const validateForm = () => {
-    const newErrors: Record<string, string> = {}
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
-    if (!formData.name.trim()) newErrors.name = 'Name is required'
-    if (!formData.email.trim()) newErrors.email = 'Email is required'
-    if (formData.email.trim() && !formData.email.includes('@')) {
-      newErrors.email = 'Please enter a valid email'
-    }
-    if (!formData.phone.trim()) newErrors.phone = 'Phone is required'
-    if (!formData.location.trim()) newErrors.location = 'Location is required'
+  const handleSave = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSaved(true);
+    setTimeout(() => setSaved(false), 3000);
+  };
 
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
-
-  const handleChange = (field: keyof FormData, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }))
-    if (errors[field]) {
-      setErrors(prev => {
-        const newErrors = { ...prev }
-        delete newErrors[field]
-        return newErrors
-      })
-    }
-  }
-
-  const handleSave = async () => {
-    if (!validateForm()) return
-
-    setIsSaving(true)
-    await new Promise(resolve => setTimeout(resolve, 800))
-    setIsSaving(false)
-    
-    setShowSuccess(true)
-    setTimeout(() => setShowSuccess(false), 3000)
-  }
+  const handleLogout = () => {
+    localStorage.clear();
+    window.location.href = '/';
+  };
 
   return (
-    <div className="max-w-2xl space-y-6">
-      {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold text-foreground mb-1">Edit Profile</h1>
-        <p className="text-muted-foreground">Update your personal information and preferences</p>
+    <div style={{ display: 'flex', height: '100vh', backgroundColor: 'var(--bg)' }}>
+      {/* Sidebar */}
+      <div
+        style={{
+          width: '250px',
+          backgroundColor: 'var(--s1)',
+          borderRight: '1px solid var(--b0)',
+          padding: '24px',
+          overflowY: 'auto',
+        }}
+      >
+        <Link
+          href="/dashboard/customer"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            marginBottom: '32px',
+            textDecoration: 'none',
+          }}
+        >
+          <div
+            style={{
+              width: '36px',
+              height: '36px',
+              borderRadius: '8px',
+              background: 'var(--brand)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <span style={{ color: 'white', fontSize: '18px', fontWeight: 700 }}>O</span>
+          </div>
+          <span style={{ fontSize: '16px', fontWeight: 700, color: 'var(--t0)' }}>Optiploy</span>
+        </Link>
+
+        <nav style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <Link
+            href="/dashboard/customer"
+            style={{
+              padding: '10px 12px',
+              borderRadius: 'var(--r)',
+              color: 'var(--t2)',
+              textDecoration: 'none',
+              fontSize: '14px',
+              fontWeight: 500,
+            }}
+          >
+            Dashboard
+          </Link>
+          <Link
+            href="/profile"
+            style={{
+              padding: '10px 12px',
+              borderRadius: 'var(--r)',
+              backgroundColor: 'var(--brand-l)',
+              color: 'var(--brand)',
+              textDecoration: 'none',
+              fontSize: '14px',
+              fontWeight: 500,
+            }}
+          >
+            Settings
+          </Link>
+        </nav>
+
+        <div style={{ borderTop: '1px solid var(--b0)', paddingTop: '16px', marginTop: 'auto' }}>
+          <button
+            onClick={handleLogout}
+            style={{
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              padding: '10px 12px',
+              borderRadius: 'var(--r)',
+              backgroundColor: 'transparent',
+              border: 'none',
+              color: 'var(--err)',
+              fontSize: '13px',
+              fontWeight: 500,
+              fontFamily: 'var(--f)',
+              cursor: 'pointer',
+              textAlign: 'left',
+            }}
+          >
+            <LogOut style={{ width: '16px', height: '16px' }} />
+            Logout
+          </button>
+        </div>
       </div>
 
-      {/* Success Message */}
-      {showSuccess && (
-        <div className="flex items-center gap-3 p-4 bg-green-50 border border-green-200 rounded-lg">
-          <CheckCircle2 className="w-5 h-5 text-green-600" />
-          <p className="text-sm text-green-700">Profile updated successfully!</p>
+      {/* Main Content */}
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
+        {/* Header */}
+        <div
+          style={{
+            padding: '20px 32px',
+            borderBottom: '1px solid var(--b0)',
+            backgroundColor: '#fff',
+          }}
+        >
+          <h1 style={{ fontSize: '24px', fontWeight: 700, color: 'var(--t0)', display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <Settings style={{ width: '24px', height: '24px' }} />
+            Account Settings
+          </h1>
         </div>
-      )}
 
-      {/* Profile Card */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Profile Information</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          {/* Avatar Section */}
-          <div className="flex items-center gap-4">
-            <Avatar className="w-20 h-20">
-              <AvatarImage src="" alt={formData.name} />
-              <AvatarFallback className="text-xl">
-                {formData.name
-                  .split(' ')
-                  .slice(0, 2)
-                  .map(n => n[0])
-                  .join('')}
-              </AvatarFallback>
-            </Avatar>
-            <Button variant="outline">Change Photo</Button>
-          </div>
-
-          {/* Form Fields */}
-          <div className="space-y-4">
-            <FieldGroup>
-              <FieldLabel htmlFor="name">Full Name *</FieldLabel>
-              <Input
-                id="name"
-                value={formData.name}
-                onChange={e => handleChange('name', e.target.value)}
-                className={errors.name ? 'border-red-500' : ''}
-                placeholder="John Doe"
-              />
-              {errors.name && (
-                <p className="text-sm text-red-500">{errors.name}</p>
-              )}
-            </FieldGroup>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <FieldGroup>
-                <FieldLabel htmlFor="email">Email *</FieldLabel>
-                <Input
-                  id="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={e => handleChange('email', e.target.value)}
-                  className={errors.email ? 'border-red-500' : ''}
-                  placeholder="john@example.com"
-                />
-                {errors.email && (
-                  <p className="text-sm text-red-500">{errors.email}</p>
-                )}
-              </FieldGroup>
-
-              <FieldGroup>
-                <FieldLabel htmlFor="phone">Phone *</FieldLabel>
-                <Input
-                  id="phone"
-                  value={formData.phone}
-                  onChange={e => handleChange('phone', e.target.value)}
-                  className={errors.phone ? 'border-red-500' : ''}
-                  placeholder="+1 (555) 123-4567"
-                />
-                {errors.phone && (
-                  <p className="text-sm text-red-500">{errors.phone}</p>
-                )}
-              </FieldGroup>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <FieldGroup>
-                <FieldLabel htmlFor="location">Location *</FieldLabel>
-                <Input
-                  id="location"
-                  value={formData.location}
-                  onChange={e => handleChange('location', e.target.value)}
-                  className={errors.location ? 'border-red-500' : ''}
-                  placeholder="San Francisco, CA"
-                />
-                {errors.location && (
-                  <p className="text-sm text-red-500">{errors.location}</p>
-                )}
-              </FieldGroup>
-
-              <FieldGroup>
-                <FieldLabel htmlFor="website">Website</FieldLabel>
-                <Input
-                  id="website"
-                  value={formData.website || ''}
-                  onChange={e => handleChange('website', e.target.value)}
-                  placeholder="https://example.com"
-                />
-              </FieldGroup>
-            </div>
-
-            {formData.title !== undefined && (
-              <FieldGroup>
-                <FieldLabel htmlFor="title">Job Title</FieldLabel>
-                <Input
-                  id="title"
-                  value={formData.title || ''}
-                  onChange={e => handleChange('title', e.target.value)}
-                  placeholder="e.g., Senior Developer"
-                />
-              </FieldGroup>
-            )}
-
-            {formData.company !== undefined && (
-              <FieldGroup>
-                <FieldLabel htmlFor="company">Company</FieldLabel>
-                <Input
-                  id="company"
-                  value={formData.company || ''}
-                  onChange={e => handleChange('company', e.target.value)}
-                  placeholder="e.g., Your Company"
-                />
-              </FieldGroup>
-            )}
-
-            <FieldGroup>
-              <FieldLabel htmlFor="bio">Bio</FieldLabel>
-              <Textarea
-                id="bio"
-                value={formData.bio}
-                onChange={e => handleChange('bio', e.target.value)}
-                placeholder="Tell us about yourself..."
-                className="min-h-[120px] resize-none"
-              />
-            </FieldGroup>
-          </div>
-
-          {/* Action Buttons */}
-          <div className="flex justify-end gap-3 border-t pt-6">
-            <Button variant="outline">Cancel</Button>
-            <Button
-              onClick={handleSave}
-              disabled={isSaving}
-              className="bg-[var(--color-blue-600)] hover:bg-[var(--color-blue-700)]"
+        {/* Content */}
+        <div style={{ padding: '32px', flex: 1, maxWidth: '800px' }}>
+          {saved && (
+            <div
+              style={{
+                backgroundColor: 'var(--ok-l)',
+                color: 'var(--ok)',
+                padding: '12px 14px',
+                borderRadius: 'var(--r)',
+                marginBottom: '24px',
+                fontSize: '13px',
+                fontWeight: 600,
+              }}
             >
-              {isSaving ? 'Saving...' : 'Save Changes'}
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+              ✓ Settings saved successfully
+            </div>
+          )}
+
+          <form onSubmit={handleSave}>
+            {/* Profile Section */}
+            <div style={{ backgroundColor: '#fff', border: '1px solid var(--b0)', borderRadius: 'var(--r2)', padding: '24px', marginBottom: '24px' }}>
+              <h2 style={{ fontSize: '16px', fontWeight: 600, color: 'var(--t0)', marginBottom: '16px' }}>
+                Profile Information
+              </h2>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: 'var(--t1)', marginBottom: '6px' }}>
+                    First Name
+                  </label>
+                  <input
+                    type="text"
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleChange}
+                    style={{
+                      width: '100%',
+                      padding: '11px 14px',
+                      border: '1.5px solid var(--b0)',
+                      borderRadius: 'var(--r)',
+                      fontSize: '14px',
+                      fontFamily: 'var(--f)',
+                      outline: 'none',
+                    }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: 'var(--t1)', marginBottom: '6px' }}>
+                    Last Name
+                  </label>
+                  <input
+                    type="text"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleChange}
+                    style={{
+                      width: '100%',
+                      padding: '11px 14px',
+                      border: '1.5px solid var(--b0)',
+                      borderRadius: 'var(--r)',
+                      fontSize: '14px',
+                      fontFamily: 'var(--f)',
+                      outline: 'none',
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div style={{ marginBottom: '16px' }}>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: 'var(--t1)', marginBottom: '6px' }}>
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  style={{
+                    width: '100%',
+                    padding: '11px 14px',
+                    border: '1.5px solid var(--b0)',
+                    borderRadius: 'var(--r)',
+                    fontSize: '14px',
+                    fontFamily: 'var(--f)',
+                    outline: 'none',
+                  }}
+                />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: 'var(--t1)', marginBottom: '6px' }}>
+                  Phone Number
+                </label>
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  style={{
+                    width: '100%',
+                    padding: '11px 14px',
+                    border: '1.5px solid var(--b0)',
+                    borderRadius: 'var(--r)',
+                    fontSize: '14px',
+                    fontFamily: 'var(--f)',
+                    outline: 'none',
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* Security Section */}
+            <div style={{ backgroundColor: '#fff', border: '1px solid var(--b0)', borderRadius: 'var(--r2)', padding: '24px', marginBottom: '24px' }}>
+              <h2 style={{ fontSize: '16px', fontWeight: 600, color: 'var(--t0)', marginBottom: '16px' }}>
+                Change Password
+              </h2>
+
+              <div style={{ marginBottom: '16px' }}>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: 'var(--t1)', marginBottom: '6px' }}>
+                  Current Password
+                </label>
+                <input
+                  type="password"
+                  name="currentPassword"
+                  value={formData.currentPassword}
+                  onChange={handleChange}
+                  placeholder="Enter your current password"
+                  style={{
+                    width: '100%',
+                    padding: '11px 14px',
+                    border: '1.5px solid var(--b0)',
+                    borderRadius: 'var(--r)',
+                    fontSize: '14px',
+                    fontFamily: 'var(--f)',
+                    outline: 'none',
+                  }}
+                />
+              </div>
+
+              <div style={{ marginBottom: '16px' }}>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: 'var(--t1)', marginBottom: '6px' }}>
+                  New Password
+                </label>
+                <input
+                  type="password"
+                  name="newPassword"
+                  value={formData.newPassword}
+                  onChange={handleChange}
+                  placeholder="Enter a new password"
+                  style={{
+                    width: '100%',
+                    padding: '11px 14px',
+                    border: '1.5px solid var(--b0)',
+                    borderRadius: 'var(--r)',
+                    fontSize: '14px',
+                    fontFamily: 'var(--f)',
+                    outline: 'none',
+                  }}
+                />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: 'var(--t1)', marginBottom: '6px' }}>
+                  Confirm New Password
+                </label>
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  placeholder="Confirm your new password"
+                  style={{
+                    width: '100%',
+                    padding: '11px 14px',
+                    border: '1.5px solid var(--b0)',
+                    borderRadius: 'var(--r)',
+                    fontSize: '14px',
+                    fontFamily: 'var(--f)',
+                    outline: 'none',
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* Save Button */}
+            <div style={{ display: 'flex', gap: '12px' }}>
+              <button
+                type="submit"
+                style={{
+                  padding: '12px 24px',
+                  backgroundColor: 'var(--brand)',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: 'var(--r)',
+                  fontWeight: 600,
+                  fontSize: '14px',
+                  fontFamily: 'var(--f)',
+                  cursor: 'pointer',
+                }}
+              >
+                Save Changes
+              </button>
+              <Link
+                href="/dashboard/customer"
+                style={{
+                  padding: '12px 24px',
+                  backgroundColor: 'var(--s2)',
+                  color: 'var(--t0)',
+                  border: '1px solid var(--b0)',
+                  borderRadius: 'var(--r)',
+                  fontWeight: 600,
+                  fontSize: '14px',
+                  fontFamily: 'var(--f)',
+                  textDecoration: 'none',
+                  display: 'inline-block',
+                }}
+              >
+                Cancel
+              </Link>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
-  )
+  );
 }

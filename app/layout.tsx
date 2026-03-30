@@ -1,15 +1,13 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { DM_Sans } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
-import { AuthProvider } from '@/lib/auth-context'
 import './globals.css'
 
-const _geist = Geist({ subsets: ["latin"] });
-const _geistMono = Geist_Mono({ subsets: ["latin"] });
+const dmSans = DM_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Command - Staffing Management Dashboard',
-  description: 'Manage shortlisted talent, schedule interviews, and hire pre-vetted professionals',
+  title: 'Optiploy — AI-First Optimizely Talent Platform',
+  description: 'Login to Optiploy - AI-powered talent optimization platform',
   generator: 'v0.app',
   icons: {
     icon: [
@@ -36,11 +34,9 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body className="font-sans antialiased">
-        <AuthProvider>
-          {children}
-        </AuthProvider>
+    <html lang="en" style={{ colorScheme: 'light' }}>
+      <body style={{ fontFamily: 'var(--f)', background: 'var(--bg)', color: 'var(--t0)' }} className="antialiased">
+        {children}
         <Analytics />
       </body>
     </html>
